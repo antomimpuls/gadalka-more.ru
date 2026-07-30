@@ -1304,5 +1304,27 @@ ym(SITE_SETTINGS.yandexMetrikaId,"init",{clickmap:true,trackLinks:true,accurateT
   }, false);
 })();
 </script>
+<script id="adspower-persona-runtime-v1">
+/* ADSPOWER_PERSONA_RUNTIME_V1: render template persona from current SITE_SETTINGS. */
+(function(){
+  function renderPersona(){
+    var name = String((window.SITE_SETTINGS || (typeof SITE_SETTINGS !== 'undefined' ? SITE_SETTINGS : {})).psychicName || '').trim();
+    if(!name || !document.body) return;
+    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    var nodes = [], node;
+    while((node = walker.nextNode())){
+      var parent = node.parentElement;
+      if(parent && !/^(SCRIPT|STYLE|NOSCRIPT|TEXTAREA)$/.test(parent.tagName) && node.nodeValue.indexOf('{{NAME}}') !== -1){
+        nodes.push(node);
+      }
+    }
+    nodes.forEach(function(textNode){
+      textNode.nodeValue = textNode.nodeValue.split('{{NAME}}').join(name);
+    });
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', renderPersona, {once:true});
+  else renderPersona();
+})();
+</script>
 </body>
 </html>
